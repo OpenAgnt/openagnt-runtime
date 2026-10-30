@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      ca-certificates curl tar gzip xz-utils unzip openssl libstdc++6 \
+      ca-certificates curl tar gzip xz-utils unzip openssl libstdc++6 libatomic1 \
  && rm -rf /var/lib/apt/lists/*
 
 # Node 26.13.0 (same major the build stage assumes).
