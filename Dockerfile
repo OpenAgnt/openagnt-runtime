@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      ca-certificates curl tar gzip xz-utils unzip openssl libstdc++6 libatomic1 \
+      ca-certificates curl tar gzip xz-utils unzip openssl libstdc++6 libatomic1 tzdata \
  && rm -rf /var/lib/apt/lists/*
 
 # Node 26.13.0 (same major the build stage assumes).
@@ -17,15 +17,10 @@ RUN case "$TARGETARCH" in \
       arm64) NODE_ARCH=arm64 ;; \
       *) echo "unsupported arch: $TARGETARCH" && exit 1 ;; \
     esac \
- && curl -fsSL "https://nodejs.org/dist/v26.13.0/node-v26.13.0-linux-${NODE_ARCH}.tar.xz" \
-      -o /tmp/node.tar.xz \
- && tar -xJf /tmp/node.tar.xz -C /usr/local --strip-components=1 \
- && rm /tmp/node.tar.xz \
- && node --version
+ && curl -fsSL "https://nodejs.org/dist/v26.13.0/node-v26.13.0-linux-${NODE_ARCH}.tar.xz"       -o /tmp/node.tar.xz  && tar -xJf /tmp/node.tar.xz -C /usr/local --strip-components=1  && rm /tmp/node.tar.xz  && node --version
 
-# Bun 1.4.4 â€” single-sourced with the build stage.
-RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.4.4" \
- && bun --version
+# Bun 1.4.4 - single-sourced with the build stage.
+RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.4.4"  && bun --version
 
 RUN useradd --create-home --uid 10001 app \
  && mkdir -p /app /opt/openagnt \
