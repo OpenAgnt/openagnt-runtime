@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     NODE_ENV=production \
@@ -10,21 +10,21 @@ RUN apt-get update \
       ca-certificates curl tar gzip xz-utils unzip openssl libstdc++6 \
  && rm -rf /var/lib/apt/lists/*
 
-# Node 22.14.0 (same major the build stage assumes).
+# Node 26.13.0 (same major the build stage assumes).
 ARG TARGETARCH=amd64
 RUN case "$TARGETARCH" in \
       amd64) NODE_ARCH=x64 ;; \
       arm64) NODE_ARCH=arm64 ;; \
       *) echo "unsupported arch: $TARGETARCH" && exit 1 ;; \
     esac \
- && curl -fsSL "https://nodejs.org/dist/v22.14.0/node-v22.14.0-linux-${NODE_ARCH}.tar.xz" \
+ && curl -fsSL "https://nodejs.org/dist/v26.13.0/node-v26.13.0-linux-${NODE_ARCH}.tar.xz" \
       -o /tmp/node.tar.xz \
  && tar -xJf /tmp/node.tar.xz -C /usr/local --strip-components=1 \
  && rm /tmp/node.tar.xz \
  && node --version
 
-# Bun 1.2.20 — single-sourced with the build stage.
-RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.20" \
+# Bun 1.4.4 â€” single-sourced with the build stage.
+RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.4.4" \
  && bun --version
 
 RUN useradd --create-home --uid 10001 app \

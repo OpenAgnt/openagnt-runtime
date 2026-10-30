@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Job runs download the JOB bundle (source + prod deps), not the serving
-# bundle — `node scripts/cleanup.js` needs scripts/, not .next/standalone.
+# bundle â€” `node scripts/cleanup.js` needs scripts/, not .next/standalone.
 if [ "${JOB_MODE:-0}" = "1" ]; then
   ARTIFACT_URL="$JOB_ARTIFACT_URL"
   ARTIFACT_TOKEN="${JOB_ARTIFACT_TOKEN:-}"
@@ -21,7 +21,7 @@ mkdir -p /app /tmp
 
 # Optional auth header as a bash array: parameter expansion with embedded
 # quotes would not preserve argument boundaries.
-# A presigned URL (X-Amz-Signature) is self-authorizing — sending a bearer
+# A presigned URL (X-Amz-Signature) is self-authorizing â€” sending a bearer
 # header as well makes S3 reject the request (400, conflicting auth).
 auth=()
 if [ -n "${ARTIFACT_TOKEN:-}" ] && [ "${ARTIFACT_URL#*X-Amz-Signature=}" = "$ARTIFACT_URL" ]; then
